@@ -1,15 +1,10 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 from PIL import Image
 
-# Hardcoded final configuration block
+# Initialize the correct Google Cloud-compatible client directly
 GOOGLE_API_KEY = "AQ.Ab8RN6J7I_B89NUS7RDNeYcjE7y7PZNKiKSx_LiMCtXm5K6K2w"
-
-# Directly initializing the client options bypasses the OAuth 401 error completely
-from google.generativeai import client
-client.configure(client_options={"api_key": GOOGLE_API_KEY})
-
-model = genai.GenerativeModel('gemini-2.5-flash')
+client = genai.Client(api_key=GOOGLE_API_KEY)
 
 st.set_page_config(page_title="AI Crop Doctor", layout="centered")
 st.title("🌱 AI Crop Doctor & Advisor")
@@ -25,7 +20,12 @@ if uploaded_file is not None:
     with st.spinner("Analyzing crop health... please wait..."):
         try:
             prompt = f"You are an expert agricultural scientist. Analyze this crop image and provide the response in {lang} covering: 1. Disease Identification or Health Status. 2. Clear, simple reasoning for your diagnosis. 3. Practical, actionable advice for the farmer. 4. Warning: If symptoms persist, please consult a local agricultural expert."
-            response = model.generate_content([prompt, image])
+            
+            # Using the cloud-native generation method
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=[prompt, image]
+            )
             st.write(response.text)
         except Exception as e:
             st.error(f"An error occurred: {e}")
