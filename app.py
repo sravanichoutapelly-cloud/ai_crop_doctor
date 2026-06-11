@@ -24,7 +24,7 @@ if uploaded_file is not None:
             base64_image = base64.b64encode(img_bytes).decode('utf-8')
             
             # Construct the HTTP Request payload bypassing library locks
-            api_key = "AIzaSyAQ.Ab8RN6LBc3f0Ht8HYnqy8VGybnasK-R38IctmUc4s9cYyY0kvQ"
+            api_key = ""AIzaSy..." # AQ.Ab8RN6LBc3f0Ht8HYnqy8VGybnasK-R38IctmUc4s9cYyY0kvQ"
             url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
             
             prompt = f"You are an expert agricultural scientist. Analyze this crop image and provide the response in {lang} covering: 1. Disease Identification or Health Status. 2. Clear, simple reasoning for your diagnosis. 3. Practical, actionable advice for the farmer. 4. Warning: If symptoms persist, please consult a local agricultural expert."
