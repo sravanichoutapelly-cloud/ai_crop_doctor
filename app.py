@@ -25,7 +25,7 @@ if uploaded_file is not None:
     with st.spinner("Analyzing crop health... please wait..."):
         try:
             # Constructing direct HTTP payload compatible with AQ. tokens
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
             
             headers = {"Content-Type": "application/json"}
             
