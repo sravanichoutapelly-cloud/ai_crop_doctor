@@ -2,18 +2,20 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 
-# Paste your actual AIzaSy key from your Google AI Studio tab right inside these quotes
-API_KEY = "AQ.Ab8RN6LBc3f0Ht8HYnqy8VGybnasK-R38IctmUc4s9cYyY0kvQ"
+# Securely check and fetch the API key from Streamlit's Secrets panel
+if "GOOGLE_API_KEY" in st.secrets:
+    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+else:
+    # Fallback in case secrets aren't set up yet
+    st.error("API Key missing! Please add GOOGLE_API_KEY to your Streamlit App Secrets.")
 
-# Configure the library directly using the standard personal key format
-genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 st.set_page_config(page_title="AI Crop Doctor", layout="centered")
 st.title("🌱 AI Crop Doctor & Advisor")
 st.write("Upload a leaf photo to get a disease diagnosis and expert local advice.")
 
-lang = st.selectbox("Choose Language / भाषा चुनें", ["English", "Hindi (हिंदी)", "Telugu (తెलुగు)"])
+lang = st.selectbox("Choose Language / भाषा चुनें", ["English", "Hindi (हिंदी)", "Telugu (తెలుగు)"])
 uploaded_file = st.file_uploader("Take or Upload a Photo of the Leaf", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
