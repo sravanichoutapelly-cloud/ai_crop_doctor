@@ -1,10 +1,8 @@
 import streamlit as st
-from google import genai
+import requests
+import base64
 from PIL import Image
-
-# Initialize the correct Google Cloud-compatible client directly
-GOOGLE_API_KEY = "AQ.Ab8RN6J7I_B89NUS7RDNeYcjE7y7PZNKiKSx_LiMCtXm5K6K2w"
-client = genai.Client(api_key=GOOGLE_API_KEY)
+import io
 
 st.set_page_config(page_title="AI Crop Doctor", layout="centered")
 st.title("🌱 AI Crop Doctor & Advisor")
@@ -19,13 +17,41 @@ if uploaded_file is not None:
     
     with st.spinner("Analyzing crop health... please wait..."):
         try:
+            # Convert image to bytes
+            img_byte_arr = io.BytesIO()
+            image.save(img_byte_arr, format='JPEG')
+            img_bytes = img_byte_arr.getvalue()
+            base64_image = base64.b64encode(img_bytes).decode('utf-8')
+            
+            # Construct the HTTP Request payload bypassing library locks
+            api_key = "AQ.Ab8RN6J7I_B89NUS7RDNeYcjE7y7PZNKiKSx_LiMCtXm5K6K2w"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+            
             prompt = f"You are an expert agricultural scientist. Analyze this crop image and provide the response in {lang} covering: 1. Disease Identification or Health Status. 2. Clear, simple reasoning for your diagnosis. 3. Practical, actionable advice for the farmer. 4. Warning: If symptoms persist, please consult a local agricultural expert."
             
-            # Using the cloud-native generation method
-            response = client.models.generate_content(
-                model='gemini-2.5-flash',
-                contents=[prompt, image]
-            )
-            st.write(response.text)
+            payload = {
+                "contents": [{
+                    "parts": [
+                        {"text": prompt},
+                        {
+                            "inlineData": {
+                                "mimeType": "image/jpeg",
+                                "data": base64_image
+                            }
+                        }
+                    ]
+                }]
+            }
+            
+            response = requests.post(url, json=payload)
+            res_json = response.json()
+            
+            # Display text out cleanly
+            if "candidates" in res_json:
+                output_text = res_json["candidates"][0]["content"]["parts"][0]["text"]
+                st.write(output_text)
+            else:
+                st.error(f"API Error: {res_json}")
+                
         except Exception as e:
             st.error(f"An error occurred: {e}")
