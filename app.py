@@ -4,7 +4,7 @@ from PIL import Image
 
 # Securely check and fetch the API key from Streamlit's Secrets panel
 if "GOOGLE_API_KEY" in st.secrets:
-    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+    genai.configure(api_key=st.secrets["AQ.Ab8RN6L5UYrtJW9qUJ7-TFkj3Ythc5WHv5MsfWb1mWi83UCL9Q"])
 else:
     # Fallback in case secrets aren't set up yet
     st.error("API Key missing! Please add GOOGLE_API_KEY to your Streamlit App Secrets.")
