@@ -4,7 +4,11 @@ from PIL import Image
 
 # Paste your copied Gemini key between the quotes below
 GOOGLE_API_KEY = "AQ.Ab8RN6J7I_B89NUS7RDNeYcjE7y7PZNKiKSx_LiMCtXm5K6K2w"
-genai.configure(api_key=GOOGLE_API_KEY)
+
+# This special configuration allows Google Cloud Console keys to work perfectly
+from google.generativeai import client
+client.configure(client_options={"api_key": GOOGLE_API_KEY})
+
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 st.set_page_config(page_title="AI Crop Doctor", layout="centered")
