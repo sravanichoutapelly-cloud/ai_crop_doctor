@@ -2,11 +2,12 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 
-# Securely fetch the API key from Streamlit's encrypted Secrets vault
-if "GOOGLE_API_KEY" in st.secrets:
-    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-else:
-    st.error("API Key missing! Please add GOOGLE_API_KEY to your Streamlit App Secrets.")
+# Hardcoded final configuration block
+GOOGLE_API_KEY = "AQ.Ab8RN6J7I_B89NUS7RDNeYcjE7y7PZNKiKSx_LiMCtXm5K6K2w"
+
+# Directly initializing the client options bypasses the OAuth 401 error completely
+from google.generativeai import client
+client.configure(client_options={"api_key": GOOGLE_API_KEY})
 
 model = genai.GenerativeModel('gemini-2.5-flash')
 
