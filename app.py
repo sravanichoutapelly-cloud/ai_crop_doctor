@@ -5,7 +5,7 @@ from PIL import Image
 # Paste your copied Gemini key between the quotes below
 GOOGLE_API_KEY = "AQ.Ab8RN6LLtkS6RyQ-Ddd55PGgAh8NlzEuE4j7IY60vu-e-HlNkg"
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-pro-vision')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 st.set_page_config(page_title="AI Crop Doctor", layout="centered")
 st.title("🌱 AI Crop Doctor & Advisor")
