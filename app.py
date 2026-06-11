@@ -4,7 +4,7 @@ from PIL import Image
 import io
 
 # Paste your 'AQ.' key directly inside these quotes
-API_KEY = "PASTE_YOUR_AQ_KEY_HERE"
+API_KEY="AQ.Ab8RN6LBc3f0Ht8HYnqy8VGybnasK-R38IctmUc4s9cYyY0kvQ"
 
 st.set_page_config(page_title="AI Crop Doctor", layout="centered")
 st.title("🌱 AI Crop Doctor & Advisor")
